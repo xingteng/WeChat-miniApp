@@ -1,6 +1,10 @@
 //index.js
 //获取应用实例
 Page({
+  data: {
+    nowTemp: '14',
+    nowWeather: '多云'
+  },
   onLoad() {
     wx.request({
       url: 'https://test-miniprogram.com/api/weather/now', //接口地址
