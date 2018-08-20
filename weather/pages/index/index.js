@@ -41,37 +41,42 @@ Page({
       success: res => {
         console.log(res)
         let result = res.data.result
-        let temp = result.now.temp
-        let weather = result.now.weather
-        console.log(temp, weather)
-        this.setData({
-          nowTemp: temp,
-          nowWeather: weatherMap[weather],
-          nowWeatherBackground: '/images/' + weather + '-bg.png'
-        })
-        wx.setNavigationBarColor({
-          frontColor: '#000000',
-          backgroundColor: weatherColorMap[weather]
-        })
-        //set hourlyweather
-        let forecast = result.forecast
-        let hourlyweather = []
-        let nowHour = new Date().getHours()
-        for (let i = 0; i < 24; i += 3) {
-          hourlyweather.push({
-            time: (i + nowHour) % 24 + "时",
-            iconPath: '/images/' + forecast[i / 3].weather + '-icon.png',
-            temp: forecast[i / 3].temp + '°'
-          })
-        }
-        hourlyweather[0].time = '现在'
-        this.setData({
-          hourlyweather: hourlyweather
-        })
+        this.setNow(result)
+        this.setHourlyweather(result)
       },
       complete:()=>{
         callback && callback()
       }
+    })
+  },
+  setNow(result) {
+    let temp = result.now.temp
+    let weather = result.now.weather
+    console.log(temp, weather)
+    this.setData({
+      nowTemp: temp,
+      nowWeather: weatherMap[weather],
+      nowWeatherBackground: '/images/' + weather + '-bg.png'
+    })
+    wx.setNavigationBarColor({
+      frontColor: '#000000',
+      backgroundColor: weatherColorMap[weather]
+    })
+  },
+  setHourlyweather(result) {
+    let forecast = result.forecast
+    let hourlyweather = []
+    let nowHour = new Date().getHours()
+    for (let i = 0; i < 8; i += 1) {
+      hourlyweather.push({
+        time: (i * 3 + nowHour) % 24 + "时",
+        iconPath: '/images/' + forecast[i].weather + '-icon.png',
+        temp: forecast[i].temp + '°'
+      })
+    }
+    hourlyweather[0].time = '现在'
+    this.setData({
+      hourlyweather: hourlyweather
     })
   }
 })
