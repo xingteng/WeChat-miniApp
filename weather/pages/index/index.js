@@ -54,13 +54,14 @@ Page({
           backgroundColor: weatherColorMap[weather]
         })
         //set hourlyweather
+        let forecast = result.forecast
         let hourlyweather = []
         let nowHour = new Date().getHours()
         for (let i = 0; i < 24; i += 3) {
           hourlyweather.push({
             time: (i + nowHour) % 24 + "时",
-            iconPath: '/images/sunny-icon.png',
-            temp: "12°"
+            iconPath: '/images/' + forecast[i / 3].weather + '-icon.png',
+            temp: forecast[i / 3].temp + '°'
           })
         }
         hourlyweather[0].time = '现在'
