@@ -4,6 +4,11 @@
   <view class="weather">{{nowWeather}}</view>
   <image class="weather-bg" src="{{nowWeatherBackground}}" mode="scaleToFill"></image>
   <!--scaleToFill:不保持纵横比缩放图片，使图片的宽高完全拉伸至填满 image 元素-->
+  <view class="day-weather">
+    <view class="day-text">{{todayDate}}</view>
+    <view class="temp-text">{{todayTemp}}</view>
+    <image class="arrow-icon" src='/images/arrow.png'></image>
+  </view>
 </view>
 <view class="timetips">
   <image class="timetips-icon" src="/images/time-icon.png"></image>
