@@ -39,7 +39,7 @@ Page({
     locationAuthType: UNPROMPTED
   },
   onPullDownRefresh() {
-    this.getNow(()=> {
+    this.getNow(() => {
       wx.stopPullDownRefresh()
     })
   },
@@ -55,7 +55,7 @@ Page({
       data: {
         city: this.data.city
       },
-     
+
       success: res => {
         console.log(res)
         let result = res.data.result
@@ -63,7 +63,7 @@ Page({
         this.setHourlyweather(result)
         this.setToday(result)
       },
-      complete:()=>{
+      complete: () => {
         callback && callback()
       }
     })
@@ -105,7 +105,7 @@ Page({
       todayDate: `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} 今天`
     })
   },
-  onTapDayWeather(){
+  onTapDayWeather() {
     wx.showToast()
     wx.navigateTo({
       url: '/pages/list/list?city=' + this.data.city,
@@ -113,7 +113,7 @@ Page({
   },
   onTapLocation() {
     this.getLocation()
-  },    
+  },
   getLocation() {
     wx.getLocation({
       success: res => {
