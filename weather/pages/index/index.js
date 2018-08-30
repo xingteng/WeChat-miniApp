@@ -38,16 +38,32 @@ Page({
     locationTipsText: UNPROMPTED_TIPS,
     locationAuthType: UNPROMPTED
   },
-  onPullDownRefresh() {
-    this.getNow(() => {
-      wx.stopPullDownRefresh()
-    })
-  },
   onLoad() {
     this.qqmapsdk = new QQMapWX({
       key: 'EBBBZ-U7JWP-U56DZ-VHDXK-CY3BV-HKBAH'
     })
     this.getNow()
+  },
+  onShow() {
+    wx.getSetting({
+      success: res => {
+        let auth = res.authSetting['scope.userLocation']
+        if (auth && this.data.locationAuthType != AUTHORIZED) {
+          //权限从无到有
+          this.setData({
+            locationAuthType: AUTHORIZED,
+            locationTipsText: AUTHORIZED_TIPS
+          })
+          this.getLocation()
+        }
+        //权限从有到无未处理
+      }
+    })
+  },
+  onPullDownRefresh() {
+    this.getNow(() => {
+      wx.stopPullDownRefresh()
+    })
   },
   getNow(callback) {
     wx.request({
@@ -112,7 +128,10 @@ Page({
     })
   },
   onTapLocation() {
-    this.getLocation()
+    if (this.data.locationAuthType === UNAUTHORIZED)
+      wx.openSetting()
+    else
+      this.getLocation()
   },
   getLocation() {
     wx.getLocation({
@@ -130,7 +149,6 @@ Page({
             let city = res.result.address_component.city
             this.setData({
               city: city,
-              locationTipsText: ""
             })
             this.getNow()
           }
