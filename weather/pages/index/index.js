@@ -31,7 +31,7 @@ Page({
     nowTemp: '',
     nowWeather: '',
     nowWeatherBackground: '',
-    hourlyweather: [],
+    hourlyWeather: [],
     todayTemp: "",
     todayDate: "",
     city: '广州市',
@@ -76,7 +76,7 @@ Page({
         console.log(res)
         let result = res.data.result
         this.setNow(result)
-        this.setHourlyweather(result)
+        this.setHourlyWeather(result)
         this.setToday(result)
       },
       complete: () => {
@@ -98,20 +98,20 @@ Page({
       backgroundColor: weatherColorMap[weather]
     })
   },
-  setHourlyweather(result) {
+  setHourlyWeather(result) {
     let forecast = result.forecast
-    let hourlyweather = []
+    let hourlyWeather = []
     let nowHour = new Date().getHours()
     for (let i = 0; i < 8; i += 1) {
-      hourlyweather.push({
+      hourlyWeather.push({
         time: (i * 3 + nowHour) % 24 + "时",
         iconPath: '/images/' + forecast[i].weather + '-icon.png',
         temp: forecast[i].temp + '°'
       })
     }
-    hourlyweather[0].time = '现在'
+    hourlyWeather[0].time = '现在'
     this.setData({
-      hourlyweather: hourlyweather
+      hourlyWeather: hourlyWeather
     })
   },
   setToday(result) {
